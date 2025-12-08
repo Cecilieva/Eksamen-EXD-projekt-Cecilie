@@ -4,6 +4,8 @@ Jeg har ændret på forsiden:
 - Bobler 
 - Stemme
 - Flag & ændring af sprog
+- tilføjet lydfiler
 
 Farvelæg din egen fisk - spil
+- tilføjet lydfiler
 

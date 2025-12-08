@@ -196,11 +196,30 @@ document.addEventListener('DOMContentLoaded', () => {
 	// Cursor hint for old .palet imgs
 	document.querySelectorAll('.palet').forEach(img => img.style.cursor = 'pointer');
 
-	// 'Færdig' knap: gå videre til akvarie.html
+	// 'Færdig' knap: afspil tada først (på brugerklik), så naviger til akvarie.html
 	const doneBtn = document.getElementById('doneButton');
 	if (doneBtn) {
-		doneBtn.addEventListener('click', () => {
-			window.location.href = 'akvarie.html';
+		doneBtn.addEventListener('click', (e) => {
+			e.preventDefault();
+			// try to play tada audio immediately (this is a user gesture)
+			try {
+				const tada = new Audio(encodeURI('audio/tadaa-47995.mp3'));
+				tada.volume = 0.85;
+				const navAfterPlay = () => { window.location.href = 'akvarie.html'; };
+				// attempt to play and on success wait a short moment then navigate
+				tada.play().then(() => {
+					// give the sound a moment to start before navigating
+					setTimeout(navAfterPlay, 600);
+				}).catch(() => {
+					// play failed (autoplay/security). set flag so target page can try again, then navigate
+					try { sessionStorage.setItem('playTada', '1'); } catch(e) {}
+					navAfterPlay();
+				});
+			} catch (err) {
+				// fallback: set flag and navigate
+				try { sessionStorage.setItem('playTada', '1'); } catch(e) {}
+				window.location.href = 'akvarie.html';
+			}
 		});
 	}
 });
