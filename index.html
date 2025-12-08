@@ -1,25 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Load DynaPuff font -->
+    <link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400;700&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/css.css">
     <title>Byg dit akvarie</title>
+
 </head>
 <body>
-<h1>Byg dit akvarie</h1>
-    <p>Hej med dig! Her kan du farve og bygge dit helt eget akvarie.</p>
+
+<div>
+<div class="page-header">
+    <h1 class="page-title">Velkommen til akvariet!</h1>
+</div>
 
  <div class="background">  
  <a href="bygakvarie.html" class="bygakvarie"></a>
-    </div> 
+    
+</div> 
+<!-- Language Buttons -->
     <button class="danish"></button>
     <button class="english"></button>
     <button class="german"></button>
 
-    <h1 class="overskrift">Velkommen til akvariet!</h1> 
+</body>
+<!-- Crab Button -->
+    <img src="image/Crab.svg" alt="krabbe" class="crab" id="krabbeBtn">
 
-    <img src="image/Crab.svg" alt="krabbe" class="crab">
+<!-- Decorative images -->
+ <img src="image/palet.png" alt="palet" class="paletfish"> 
     <img src="image/bubble.gif" alt="bobbel" class="bobbel">
     <img src="image/bubble2.gif" alt="bobbel2" class="bobbel2">
     <img src="image/bubble.gif" alt="bobbel" class="bobbel3">
@@ -27,9 +38,23 @@
     <img src="image/greencoral.png" alt="grøn koral" class="greencoral">
     <img src="image/greencoral.png" alt="grøn koral-1" class="greencoral-1">
     <img src="image/greencoral.png" alt="grøn koral-2" class="greencoral-2">
-    
+    <img src="image/sea-anemone.png" alt="søanemone" class="sea-anemone">
+
+
+    <!-- audio -->
+    <audio id="jeppeVoice" preload="auto">
+        <source src="audio/voicertool_audio_Jeppe_08.12.2025.mp3" type="audio/mpeg">
+    </audio>
     
 
-    <script src="js/js.js"></script>
+</div>
+
+<!-- Fallback overlay, hvis autoplay bliver blokeret -->
+<div id="audioOverlay" class="overlay hidden">
+    <button id="overlayBtn" class="overlay-btn">Tryk for at høre velkomststemmen 🎵</button>
+</div>
+
+
+<script src="js/js.js"></script>
 </body>
 </html>

@@ -9,11 +9,33 @@ body {
   overflow: hidden; 
 }
 
+.page-header{
+  position: relative;
+  font-family: 'DynaPuff', sans-serif;
+  width: 100%;
+  margin: 0;
+  padding-top: 1.2rem;
+  text-align: center;
+  z-index: 20;
+  top: 20px;
+}
+
+.page-title{
+  margin: 0;
+  font-size: 3.5vw;
+  color: #204BC6;
+}
+
+@media (max-width: 600px){
+  .page-title{ font-size: 6.5vw; }
+}
+
 .background{
   position: relative;
   width: 100%;
   height: 100vh; 
   z-index: 0; 
+  overflow: hidden;
 }
 
 /* Language buttons */
@@ -71,39 +93,31 @@ body {
     gap: 10px;
 }
 
+/* Overlay fallback ved autoplay-block */
+        .overlay {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.45);
+            backdrop-filter: blur(2px);
+            z-index: 9999;
+        }
+        .overlay.hidden {
+            display: none;
+        }
+        .overlay-btn {
+            background: #ffde59;
+            border: none;
+            padding: 20px 35px;
+            border-radius: 30px;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+            font-family: "DynaPuff", sans-serif;
+        }
 
-/* Bubbles */
-.bobbel {
-    position: absolute;
-    top: 35%;
-    right: 72%;
-    z-index: 5;
-    width: 8vw;
-}
-
-.bobbel2 {
-    position: absolute;
-    top: 43%;
-    right: 10%;
-    z-index: 10;
-    width: 8vw;
-}
-
-.bobbel4 {
-    position: absolute;
-    top: 35%;
-    right: 92%;
-    z-index: 5;
-    width: 5vw;
-}
-
-.bobbel3 {
-    position: absolute;
-    top: 43%;
-    right: 40%;
-    z-index: 10;
-    width: 5vw;
-}
 
 /* Crab */
 .crab {
@@ -144,8 +158,8 @@ body {
 }
 
 @keyframes sway {
-  0%   { transform: rotate(-3deg); }
-  100% { transform: rotate(3deg); }
+  0%   { transform: rotate(-2deg); }
+  100% { transform: rotate(2deg); }
 }
 
 .greencoral-1 {
@@ -186,3 +200,20 @@ body {
   100% { transform: rotate(1deg); }
 }
 
+.sea-anemone {
+    position: absolute;
+    bottom: -10px;
+    left: 920px;
+    z-index: 2;
+    width: 12vw;
+    animation: sway 3s ease-in-out infinite alternate;
+    transform-origin: center bottom;
+}
+
+@keyframes sway {
+  0%   { transform: rotate(-2deg); }
+  100% { transform: rotate(2deg); }
+}
+
+
+ 

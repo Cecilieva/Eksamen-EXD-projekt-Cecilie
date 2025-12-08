@@ -1,19 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="da">
 <head>
+    <!-- DynaPuff font-->
+    <link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400;700&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="../css/bygakvarie.css">
-
+    <title>Farvelæg din fisk</title>
+    <link rel="stylesheet" href="css/bygakvarie.css">
 </head>
 <body>
-    <div class="background">  
-    <a href="index.html" class="tilbageknap"></a>
-         </div>
 
-    <img src="Paletfish-without-color.png" alt="">
+<div class="background">
+    <img src="akvarie.html" alt="">
+</div>
+<div class="header">
+    <h1 class="page-header">Farvelæg din fisk!</h1>
+</div>
 
-   <script src="../js/bygakvarie.js"></script>
+<!-- Fisk (karussel: én fisk ad gangen) -->
+<div class="fish-area">
+    <div class="fish-carousel-wrapper">
+        <button class="carousel-btn prev" aria-label="Forrige">
+            <img src="image/pil.png 11-34-13-706.png" alt="Forrige" class="arrow-img">
+        </button>
+        <div class="fish-carousel" id="fishCarousel">
+            <div class="carousel-item" data-src="image/fiskudenfarve.svg" role="button" tabindex="0" aria-label="Fisk uden farve">
+                <img src="image/fiskudenfarve.svg" alt="Fisk uden farve">
+            </div>
+            <div class="carousel-item" data-src="image/raevefisk.svg" role="button" tabindex="0" aria-label="Rævefisk">
+                <img src="image/raevefisk.svg" alt="Rævefisk">
+            </div>
+        </div>
+        <button class="carousel-btn next" aria-label="Næste">
+            <img src="image/pil.png 11-34-13-706.png" alt="Næste" class="arrow-img">
+        </button>
+    </div>
+</div>
+
+ <!-- Bobler og baggrunds-elementer -->
+<img src="image/bubble.gif" class="bobbel">
+<img src="image/bubble2.gif" class="bobbel2">
+<img src="image/bubble.gif" class="bobbel3">
+<img src="image/bubble2.gif" class="bobbel4">
+<img src="image/greencoral.png" alt="grøn koral" class="greencoral">
+<img src="image/greencoral.png" alt="grøn koral-1" class="greencoral-1">
+<img src="image/greencoral.png" alt="grøn koral-2" class="greencoral-2">
+
+ <!-- Palette -->
+<div class="palette">
+    <img src="image/paletpink.png"   class="palet color-swatch" data-color="#ff8acb" alt="pink farve">
+    <img src="image/paletgreen.png"  class="palet color-swatch" data-color="#8eff89" alt="grøn farve">
+    <img src="image/paletyellow.png" class="palet color-swatch" data-color="#ffe86b" alt="gul farve">
+    <img src="image/paletorange.png" class="palet color-swatch" data-color="#ffb05c" alt="orange farve">
+    <img src="image/paletblue.png"   class="palet color-swatch" data-color="#6ac6ff" alt="blå farve">
+</div>
+
+    <!-- FARVEPALETTER -->
+    <div class="palette-container">
+        <div class="palette" data-color="#ff6aa6" style="background:#ff6aa6;"></div>
+        <div class="palette" data-color="#4bc0ff" style="background:#4bc0ff;"></div>
+        <div class="palette" data-color="#ffd300" style="background:#ffd300;"></div>
+        <div class="palette" data-color="#6eff9f" style="background:#6eff9f;"></div>
+    </div>
+
+    <!-- Færdig-knap: går videre til akvarie.html -->
+    <div class="done-wrap">
+        <button id="doneButton" class="done-button" type="button" aria-label="Færdig - gå videre">
+            <span class="done-text">Færdig</span>
+            <span class="done-circle" aria-hidden="true">
+                <!-- small arrow SVG -->
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="done-arrow">
+                    <path d="M5 12h14M13 5l7 7-7 7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
+    </div>
+
+<script src="js/bygakvarie.js"></script>
 </body>
 </html>

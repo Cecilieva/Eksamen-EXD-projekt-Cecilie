@@ -1,7 +1,8 @@
+
 body {
   background-image: url("../image/background.png");
   background-size: cover;
-  background-position: center;
+  background-position: center bottom;
   background-repeat: no-repeat;
   background-attachment: fixed;
   width: 100%;
@@ -9,9 +10,355 @@ body {
 }
 
 .background{
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100vh; 
   z-index: 0; 
 }
+
+/* Titel */
+.header {
+  position: relative;
+  text-align: center;
+  padding-top: 80px;
+  font-family: 'DynaPuff', sans-serif;
+  width: 100%;
+  margin: 0;
+  z-index: 20;
+}
+
+.page-header {
+  color: #204BC6;
+  font-size: 3.5vw;
+}
+
+@media (max-width: 600px){
+  .header{ font-size: 6.5vw; }
+} 
+
+/* Palette */
+.palette {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 20px;
+  z-index: 10;
+}
+
+.palet {
+  width: 8vw;
+  cursor: pointer;
+  transition: transform 0.25s;
+}
+
+.palet:hover {
+  transform: scale(1.1);
+}
+
+/* Færdig-knap stil */
+.done-wrap {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  display: inline-flex;
+  justify-content: center;
+  z-index: 60;
+  padding: 6px;
+}
+
+.done-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: 'DynaPuff', sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.done-text {
+  color: #204BC6;
+  font-size: 2.4rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.done-circle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 30% 30%, rgba(150,190,255,0.95), rgba(110,230,255,0.85));
+  box-shadow: 0 8px 18px rgba(32,75,198,0.12);
+}
+
+.done-arrow { 
+  width: 28px; 
+  height: 28px; }
+
+.done-button:active .done-circle { 
+  transform: scale(0.95); 
+}
+
+.done-button:focus { 
+  outline: 3px solid rgba(75,192,255,0.18); 
+  border-radius: 8px; 
+}
+
+.done-button:hover .done-circle {
+  box-shadow: 0 12px 24px rgba(32,75,198,0.18);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 520px) {
+  .done-text { font-size: 1.6rem; }
+  .done-circle { width: 48px; height: 48px; }
+  .done-wrap { bottom: 12px; }
+}
+
+/* Aktiv swatch markering */
+.color-swatch.active,
+.palette[data-color].active {
+  outline: 4px solid rgba(80,180,255,0.35);
+  border-radius: 10px;
+  transform: scale(1.05);
+}
+
+/* Kort visuel feedback når en del farves */
+.color-feedback {
+  position: fixed;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: scale(0.6);
+  opacity: 0.95;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  z-index: 9999;
+  animation: feedback-pop 0.65s cubic-bezier(.2,.8,.2,1) forwards;
+}
+
+@keyframes feedback-pop {
+  0% { transform: scale(0.6); opacity: 0.9; }
+  60% { transform: scale(1.35); opacity: 0.95; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+
+/* Fish */
+.fish {
+    position: absolute;
+    bottom: 200px;
+    left: 500px;
+    z-index: 5;
+    width: 30vw;
+}
+
+/* Bubbles */
+.bobbel {
+    position: absolute;
+    top: 35%;
+    right: 72%;
+    z-index: 4;
+    width: 8vw;
+}
+
+.bobbel2 {
+    position: absolute;
+    top: 43%;
+    right: 10%;
+    z-index: 4;
+    width: 8vw;
+}
+
+.bobbel4 {
+    position: absolute;
+    top: 35%;
+    right: 92%;
+    z-index: 4;
+    width: 5vw;
+}
+
+.bobbel3 {
+    position: absolute;
+    top: 43%;
+    right: 40%;
+    z-index: 4;
+    width: 5vw;
+}
+
+/* Plants */
+.greencoral {
+    position: absolute;
+    bottom: 80px;
+    right: 300px;
+    z-index: 1;
+    width: 10vw;
+    animation: greencoral 6s  infinite;
+}
+
+.greencoral {
+  transform-origin: center bottom;
+  animation: sway 3s ease-in-out infinite alternate;
+}
+
+@keyframes sway {
+  0%   { transform: rotate(-3deg); }
+  100% { transform: rotate(3deg); }
+}
+
+.greencoral-1 {
+    position: absolute;
+    bottom: 35px;
+    left: 270px;
+    z-index: 1;
+    width: 15vw;
+    animation: greencoral 6s  infinite;
+}
+
+.greencoral-1 {
+  transform-origin: center bottom;
+  animation: sway 3s ease-in-out infinite alternate;
+}
+
+@keyframes sway {
+  0%   { transform: rotate(-2deg); }
+  100% { transform: rotate(2deg); }
+}
+
+.greencoral-2 {
+    position: absolute;
+    bottom: -60px;
+    right: 340px;
+    z-index: 1;
+    width: 25vw;
+    animation: greencoral 6s  infinite;
+}
+
+.greencoral-2 {
+  transform-origin: center bottom;
+  animation: sway 3s ease-in-out infinite alternate;
+}
+
+@keyframes sway {
+  0%   { transform: rotate(-1deg); }
+  100% { transform: rotate(1deg); }
+}
+
+
+/* Arrow */
+.pil {
+    position: absolute;
+    bottom: 230px;
+    right: -90px;
+    transform: translateX(-50%);
+    z-index: 10;
+    width: 25vw;
+}
+
+.pil:hover {
+  transform: translateX(-50%) scale(1.05);
+}
+
+/* Karussel til fisk */
+.fish-area {
+  position: relative;
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2vh;
+}
+
+.fish-carousel-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 40vw; /* vis kun én fisk bredt */
+  max-width: 600px;
+}
+
+.fish-carousel {
+  display: flex;
+  overflow-x: auto;
+  gap: 12px;
+  padding: 8px 0;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  width: 100%;
+}
+
+.carousel-item {
+  min-width: 100%; /* én item ad gangen */
+  box-sizing: border-box;
+  border-radius: 8px;
+  padding: 6px;
+  background: rgba(255,255,255,0.02);
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  scroll-snap-align: center;
+}
+
+.carousel-item img, .carousel-item svg { width: 100%; height: auto; display: block; }
+
+.carousel-item.selected {
+  transform: translateY(-4px) scale(1.01);
+
+}
+
+.carousel-btn {
+  background: transparent;
+  border: none;
+  padding: 8px;
+  width: clamp(56px, 9.5vw, 84px);
+  height: clamp(56px, 9.5vw, 84px);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: transform .12s, box-shadow .12s, opacity .12s;
+}
+
+.carousel-btn:focus {
+  outline: 3px solid rgba(75,192,255,0.22);
+  outline-offset: 2px;
+}
+
+.carousel-btn img.arrow-img {
+  width: 350%;
+  height: auto;
+  display: block;
+  pointer-events: none;
+}
+
+.carousel-btn.next img.arrow-img {
+  transform: rotate(360deg);
+}
+
+.carousel-btn:hover { 
+  transform: translateY(-4px);  }
+
+@media (max-width: 520px) {
+  .carousel-btn { width: 52px; height: 52px; padding: 6px; }
+  .carousel-btn img.arrow-img { width: 34px; }
+}
+
+@media (max-width: 700px) {
+  .fish-carousel-wrapper { width: 85vw; }
+}
+
 
