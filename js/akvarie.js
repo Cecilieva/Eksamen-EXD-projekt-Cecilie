@@ -1,14 +1,12 @@
-
-
 document.addEventListener('DOMContentLoaded', function () {
     try {
         const shouldPlay = sessionStorage.getItem('playTada');
         if (shouldPlay === '1') {
             // ryd flaget med det samme
             sessionStorage.removeItem('playTada');
-            // forbered lyd: brug eksisterende <audio id="tadaAudio"> hvis tilgængelig
+            // forbered lyd: brug eksisterende <audio id="tadaAudio"> hvis tilgængelig 
             var audioEl = document.getElementById('tadaAudio');
-            var audio;
+            var audio; 
             if (audioEl) {
                 audio = audioEl;
             } else {
@@ -204,6 +202,5 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     } catch (e) {
-        // ignorer fejl
     }
 });
