@@ -10,3 +10,93 @@ position: relative;
 
 }
 
+/* Bubbles */
+.bobbel {
+    position: absolute;
+    top: 35%;
+    right: 72%;
+    z-index: 4;
+    width: 8vw;
+}
+
+.bobbel2 {
+    position: absolute;
+    top: 43%;
+    right: 10%;
+    z-index: 4;
+    width: 8vw;
+}
+
+.bobbel4 {
+    position: absolute;
+    top: 35%;
+    right: 92%;
+    z-index: 4;
+    width: 5vw;
+}
+
+.bobbel3 {
+    position: absolute;
+    top: 43%;
+    right: 40%;
+    z-index: 4;
+    width: 5vw;
+}
+
+/* Plants */
+.greencoral {
+    position: absolute;
+    bottom: 80px;
+    right: 300px;
+    z-index: 1;
+    width: 10vw;
+    animation: greencoral 6s  infinite;
+}
+
+.greencoral {
+  transform-origin: center bottom;
+  animation: sway 3s ease-in-out infinite alternate;
+}
+
+@keyframes sway {
+  0%   { transform: rotate(-3deg); }
+  100% { transform: rotate(3deg); }
+}
+
+.greencoral-1 {
+    position: absolute;
+    bottom: 35px;
+    left: 270px;
+    z-index: 1;
+    width: 15vw;
+    animation: greencoral 6s  infinite;
+}
+
+.greencoral-1 {
+  transform-origin: center bottom;
+  animation: sway 3s ease-in-out infinite alternate;
+}
+
+@keyframes sway {
+  0%   { transform: rotate(-2deg); }
+  100% { transform: rotate(2deg); }
+}
+
+.greencoral-2 {
+    position: absolute;
+    bottom: -60px;
+    right: 340px;
+    z-index: 1;
+    width: 25vw;
+    animation: greencoral 6s  infinite;
+}
+
+.greencoral-2 {
+  transform-origin: center bottom;
+  animation: sway 3s ease-in-out infinite alternate;
+}
+
+@keyframes sway {
+  0%   { transform: rotate(-1deg); }
+  100% { transform: rotate(1deg); }
+}
