@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		selectedItem = item;
 	}
 
-	// IntersectionObserver: find hvilket item er synligt (centered)
+	// finder hvilket item er synligt (centered)
 	if (items.length > 0 && 'IntersectionObserver' in window) {
 		const io = new IntersectionObserver((entries) => {
 			entries.forEach(entry => {

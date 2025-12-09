@@ -112,14 +112,48 @@ document.addEventListener('DOMContentLoaded', function () {
                     overlay.style.background = 'rgba(0,0,0,0.6)';
                     overlay.style.zIndex = '10000';
 
-                    // svg container uden ekstra baggrund
+                    // brug eksisterende dekorativt billede `gul_cirkel_spidse_takker.gif` som stjerne bag fisken
+                    var starImg = document.createElement('img');
+                    starImg.src = 'image/gul_cirkel_spidse_takker.gif';
+                    starImg.alt = '';
+                    // placer stjernen centreret og bagved fiskens SVG
+                    starImg.style.position = 'absolute';
+                    starImg.style.left = '50%';
+                    starImg.style.top = '50%';
+                    starImg.style.transform = 'translate(-50%, -50%)';
+                    // Gør stjernen mere dominerende så popup føles storslået
+                    starImg.style.width = '85vmin';
+                    starImg.style.maxWidth = '85vw';
+                    starImg.style.maxHeight = '85vh';
+                    starImg.style.objectFit = 'contain';
+                    starImg.style.opacity = '0.95';
+                    starImg.style.zIndex = '1000';
+
+                    // svg container uden ekstra baggrund (placeres foran stjernen)
                     var svgWrap = document.createElement('div');
                     svgWrap.innerHTML = svgString;
+                    // Gør fisken mindre så stjernen skinner igennem
                     svgWrap.style.display = 'inline-block';
-                    svgWrap.style.maxWidth = '78vw';
-                    svgWrap.style.maxHeight = '78vh';
+                    svgWrap.style.width = '48vmin';
+                    svgWrap.style.maxWidth = '68vw';
+                    svgWrap.style.maxHeight = '68vh';
                     svgWrap.style.boxSizing = 'border-box';
-                    svgWrap.style.padding = '12px';
+                    svgWrap.style.padding = '8px';
+                    // Sørg for at selve <svg> elementet skalerer til containeren,
+                    // ellers kan SVG'ens egne width/height-attributter forskubbe layoutet.
+                    try {
+                        var innerSvg = svgWrap.querySelector('svg');
+                        if (innerSvg) {
+                            try { innerSvg.removeAttribute('width'); } catch(e) {}
+                            try { innerSvg.removeAttribute('height'); } catch(e) {}
+                            innerSvg.style.width = '100%';
+                            innerSvg.style.height = 'auto';
+                            innerSvg.style.display = 'block';
+                            innerSvg.style.maxWidth = '100%';
+                        }
+                    } catch(e) {}
+                    svgWrap.style.position = 'relative';
+                    svgWrap.style.zIndex = '1001';
 
                     // lille luk-knap (rund) i hjørnet af overlay
                     var closeBtn = document.createElement('button');
@@ -138,6 +172,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     closeBtn.style.cursor = 'pointer';
                     closeBtn.style.boxShadow = '0 6px 18px rgba(0,0,0,0.2)';
 
+                    // append stjernen først (bagved), så fisken ovenpå
+                    overlay.appendChild(starImg);
                     overlay.appendChild(svgWrap);
                     document.body.appendChild(overlay);
                     document.body.appendChild(closeBtn);
