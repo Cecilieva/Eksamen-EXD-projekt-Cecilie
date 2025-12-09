@@ -20,7 +20,7 @@ function changeLanguage(languageArray) {
     if (buttonTextEl) buttonTextEl.textContent = languageArray[1];
 }
 
-  // Note: language button listeners are attached after DOMContentLoaded below
+    // Bemærk: overlay til håndtering af audio-autoplay
 
 //her laver jeg eventlisteners til knapperne så når der bliver klikket på dem, så kalder den funktionen changeLanguage med det rigtige sprog array
 document.addEventListener("DOMContentLoaded", () => {
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // Make the crab clickable to go to the builder page
+    // Gør krabben klikbar for at gå til byg-siden
     const crab = document.querySelector('.crab');
     if (crab) {
         crab.style.cursor = 'pointer';
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Attach language button listeners here so we can also switch the audio source
+    // Sprogknapper - flag
     const jeppeSrc = 'audio/voicertool_audio_Jeppe_08.12.2025.mp3';
     const guySrc = 'audio/voicertool_audio_Guy_08.12.2025_at_17_04_16_on_December_8th_2025.mp3';
     const conradSrc = 'audio/voicertool_audio_Conrad_08.12.2025_at_17_02_29_on_December_8th_2025.mp3';

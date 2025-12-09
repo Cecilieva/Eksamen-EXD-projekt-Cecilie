@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const nextBtn = document.querySelector('.carousel-btn.next');
 	let selectedItem = null;
 
-	// Feedback audio (preload to reduce latency)
+	// Feedback-lyd
 	let feedbackAudio = null;
 	try {
 		feedbackAudio = new Audio('audio/underwater_drip (1).wav');
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		feedbackAudio.volume = 0.6;
 	} catch (err) { feedbackAudio = null; }
 
-	// Load SVG inline into the carousel item (replace img with inline SVG)
+	// Indlæs SVG inline i karussel-item (erstat <img> med inline SVG)
 	function loadInlineSVGIntoItem(item) {
 		if (!item || item.dataset.inline === 'true') return Promise.resolve();
 		const src = item.dataset.src;
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	// Vis kort feedback ved klik (lille pop ved x/y) — fjernes automatisk
 	function showFeedback(clientX, clientY, color) {
 		try {
-			// play short sound feedback (allowed because play happens on user click)
+			// afspil kort lydfeedback 
 			try { if (feedbackAudio) { feedbackAudio.currentTime = 0; feedbackAudio.play().catch(()=>{}); } } catch(e) {}
 			const el = document.createElement('div');
 			el.className = 'color-feedback';
@@ -116,10 +116,10 @@ document.addEventListener('DOMContentLoaded', () => {
 			el.addEventListener('animationend', () => { try { el.remove(); } catch(e){} });
 			// safety remove after 900ms
 			setTimeout(() => { try { el.remove(); } catch(e){} }, 900);
-		} catch (err) { /* ignore */ }
+		} catch (err) {  }
 	}
 
-	// helper: find fillable parts inside an element or group
+	// hjælper: find udfyldningsbare dele i et element eller gruppe
 	function partsFromElement(el) {
 		if (!el) return [];
 		const tag = (el.tagName || '').toLowerCase();
@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		return [];
 	}
 
-	// Attach click handlers to SVG parts when an SVG is inlined
+	// Tilføj klik-handlere til SVG-dele når en SVG er inlinet
 	function attachSvgPartListeners(item) {
 		const svg = item.querySelector('svg');
 		if (!svg) return;
@@ -137,12 +137,12 @@ document.addEventListener('DOMContentLoaded', () => {
 		elements.forEach(el => {
 			const noColor = el.getAttribute && el.getAttribute('data-no-color') === 'true';
 			if (noColor) return;
-			// pointer cursor for groups/parts
+			// gør udfyldningsbare elementer klikbare og sæt cursor
 			try { el.style.cursor = 'pointer'; } catch(e) {}
 		});
 
 		svg.addEventListener('click', (e) => {
-			// if no active color, do nothing here (keeps previous behavior unchanged)
+			// hvis ingen aktiv farve, gør intet her (bevarer tidligere adfærd uændret)
 			if (!activeColor) return;
 			const target = e.target.closest('path, circle, rect, ellipse, g');
 			if (!target) return;
@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	swatches.forEach(swatch => {
 		swatch.addEventListener('click', (e) => {
-			// select / toggle active swatch
+			// vælg / skift aktiv farveprøve
 			const color = swatch.getAttribute('data-color') || swatch.dataset.color || window.getComputedStyle(swatch).backgroundColor;
 			// sekundær aktiveres kun via Shift/Alt eller data-secondary på swatch
 			const isSecondary = e.shiftKey || e.altKey || swatch.getAttribute('data-secondary') === 'true';
@@ -171,12 +171,12 @@ document.addEventListener('DOMContentLoaded', () => {
 			activeSwatch = swatch;
 			activeSwatch.classList.add('active');
 			try { activeSwatch.setAttribute('aria-pressed', 'true'); } catch(e) {}
-			// brief console feedback
+			// kort konsol-feedback
 			console.info('Farve valgt:', activeColor, 'Sekundær:', activeIsSecondary);
 		});
 	});
 
-	// Observe items and attach listeners when SVGs are loaded
+	// Observer items og tilføj lyttere når SVG'er er indlæst
 	if (items.length > 0 && 'MutationObserver' in window) {
 		const mo = new MutationObserver((mutations) => {
 			mutations.forEach(m => {
@@ -193,33 +193,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-	// Cursor hint for old .palet imgs
+	// Cursor-hint for gamle .palet-billeder
 	document.querySelectorAll('.palet').forEach(img => img.style.cursor = 'pointer');
 
-	// 'Færdig' knap: afspil tada først (på brugerklik), så naviger til akvarie.html
+	// 'Færdig' knap: sæt flag så `akvarie.html` afspiller tada-lyd, så naviger
 	const doneBtn = document.getElementById('doneButton');
 	if (doneBtn) {
 		doneBtn.addEventListener('click', (e) => {
 			e.preventDefault();
-			// try to play tada audio immediately (this is a user gesture)
-			try {
-				const tada = new Audio(encodeURI('audio/tadaa-47995.mp3'));
-				tada.volume = 0.85;
-				const navAfterPlay = () => { window.location.href = 'akvarie.html'; };
-				// attempt to play and on success wait a short moment then navigate
-				tada.play().then(() => {
-					// give the sound a moment to start before navigating
-					setTimeout(navAfterPlay, 600);
-				}).catch(() => {
-					// play failed (autoplay/security). set flag so target page can try again, then navigate
-					try { sessionStorage.setItem('playTada', '1'); } catch(e) {}
-					navAfterPlay();
-				});
-			} catch (err) {
-				// fallback: set flag and navigate
-				try { sessionStorage.setItem('playTada', '1'); } catch(e) {}
+			// Find et rimeligt valgt item (fallbacks hvis selectedItem mangler)
+			const targetItem = selectedItem || document.querySelector('.carousel-item.selected') || items.find(i => i.querySelector && i.querySelector('svg')) || items[0];
+			if (!targetItem) {
+				try { sessionStorage.setItem('playTada', '1'); } catch (e) {}
 				window.location.href = 'akvarie.html';
+				return;
 			}
+
+			// Sørg for at SVG er inline, gem den, så naviger
+			loadInlineSVGIntoItem(targetItem).then(() => {
+				try {
+					const svg = targetItem.querySelector('svg');
+					if (svg) {
+						try { sessionStorage.setItem('builtFishSVG', svg.outerHTML); } catch (e) {}
+					}
+				} catch(e) {}
+			}).catch(()=>{/* ignore */}).finally(() => {
+				try { sessionStorage.setItem('playTada', '1'); } catch (e) {}
+				window.location.href = 'akvarie.html';
+			});
 		});
 	}
 });
