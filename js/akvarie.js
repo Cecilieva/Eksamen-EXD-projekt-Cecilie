@@ -34,21 +34,65 @@ document.addEventListener('DOMContentLoaded', function () {
                 congratsAudio.volume = 0.9;
             } catch(e) { congratsAudio = null; }
 
+            // playCongrats returnerer en Promise der resolves når lyden er afspillet
             function playCongrats() {
-                if (!congratsAudio) return;
+                return new Promise((resolve) => {
+                    if (!congratsAudio) { resolve(); return; }
+                    var settled = false;
+                    function done() { if (settled) return; settled = true; try { congratsAudio.removeEventListener('ended', onEnded); } catch(e){} resolve(); }
+                    function onEnded() { done(); }
+                    try {
+                        congratsAudio.currentTime = 0;
+                        congratsAudio.addEventListener('ended', onEnded);
+                        var playPromise = congratsAudio.play();
+                        if (playPromise && typeof playPromise.then === 'function') {
+                            playPromise.then(function() {
+                                // started successfully; wait for ended event
+                            }).catch(function() {
+                                // autoplay blokeret - bind one-time gesture to try to play
+                                var tryOnce = function() {
+                                    try {
+                                        var p = congratsAudio.play();
+                                        if (p && typeof p.then === 'function') {
+                                            p.catch(function(){});
+                                        }
+                                    } catch(e) {}
+                                    window.removeEventListener('click', tryOnce);
+                                    window.removeEventListener('touchstart', tryOnce);
+                                };
+                                window.addEventListener('click', tryOnce, { once: true });
+                                window.addEventListener('touchstart', tryOnce, { once: true });
+                                // fallback: hvis der ikke kommer nogen brugerhandling, fortsæt efter 3s
+                                setTimeout(done, 3000);
+                            });
+                        } else {
+                            // play() ikke tilgængelig eller synkron — fallback
+                            setTimeout(done, 0);
+                        }
+                    } catch(e) { done(); }
+                });
+            }
+
+            // Smooth redirect: fade to black over `fadeMs` then navigate
+            function smoothRedirect(url, fadeMs) {
                 try {
-                    congratsAudio.currentTime = 0;
-                    congratsAudio.play().catch(function() {
-                        // hvis autoplay blokeret, afspil ved næste brugerhandling
-                        var tryOnce = function() {
-                            try { congratsAudio.play().catch(function(){}); } catch(e) {}
-                            window.removeEventListener('click', tryOnce);
-                            window.removeEventListener('touchstart', tryOnce);
-                        };
-                        window.addEventListener('click', tryOnce, { once: true });
-                        window.addEventListener('touchstart', tryOnce, { once: true });
-                    });
-                } catch(e) { /* ignore */ }
+                    fadeMs = typeof fadeMs === 'number' ? fadeMs : 600;
+                    var f = document.createElement('div');
+                    f.style.position = 'fixed';
+                    f.style.left = '0';
+                    f.style.top = '0';
+                    f.style.width = '100%';
+                    f.style.height = '100%';
+                    f.style.background = '#000';
+                    f.style.opacity = '0';
+                    f.style.zIndex = '11000';
+                    f.style.transition = 'opacity ' + fadeMs + 'ms ease';
+                    document.body.appendChild(f);
+                    // force reflow then start fade
+                    void f.offsetWidth;
+                    f.style.opacity = '1';
+                    setTimeout(function() { try { window.location.href = url; } catch(e) { window.location.href = url; } }, fadeMs);
+                } catch(e) { try { window.location.href = url; } catch(_) {} }
             }
 
             function showFishPopup(svgString) {
@@ -101,12 +145,25 @@ document.addEventListener('DOMContentLoaded', function () {
                     document.body.appendChild(closeBtn);
 
                     var autoCloseTimer = null;
+                    var navigationScheduled = false;
                     function removePopup() {
                         try { overlay.remove(); } catch(e) {}
                         try { closeBtn.remove(); } catch(e) {}
                         try { if (autoCloseTimer) clearTimeout(autoCloseTimer); } catch(e) {}
-                        // Afspil afsluttende 'godt klaret' lyd når popup lukkes
-                        try { playCongrats(); } catch(e) {}
+                        // Afspil afsluttende 'godt klaret' lyd når popup lukkes,
+                        // og naviger til index.html 2s efter lyden er færdig.
+                        if (navigationScheduled) return;
+                        navigationScheduled = true;
+                        try {
+                            playCongrats().then(function() {
+                                setTimeout(function() { smoothRedirect('index.html', 600); }, 2000);
+                            }).catch(function() {
+                                // hvis noget går galt, naviger efter 2s
+                                setTimeout(function() { smoothRedirect('index.html', 600); }, 2000);
+                            });
+                        } catch(e) {
+                            setTimeout(function() { smoothRedirect('index.html', 600); }, 2000);
+                        }
                     }
                     closeBtn.addEventListener('click', removePopup);
                     overlay.addEventListener('click', function(e){ if (e.target === overlay) removePopup(); });
